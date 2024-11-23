@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:39:48 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 12:39:35 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/23 12:55:08 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int			compute_broadcast_addr(net_struct *NetDatas)
 }
 
 // 2^null_bits - 2 (network and broadcast) or 2^(32 - bits) - 2
-int			compute_possible_addr(uint8_t *mask)
+int			compute_usable_addr(uint8_t *mask)
 {
 	int 	null_bits = 0;
-	int		possible_addr = 1;
+	int		usable_addr = 1;
 	size_t	i = 0;
 
 	while (i < 4)
@@ -77,9 +77,9 @@ int			compute_possible_addr(uint8_t *mask)
 	}
 
 	for (int z = 0; z < null_bits; z++) // exponent 2
-		possible_addr *= 2;
+		usable_addr *= 2;
 
-	return (possible_addr - 2); 
+	return (usable_addr - 2); 
 }
 
 void		initDataStruct(net_struct *NetDatas)
@@ -150,7 +150,7 @@ int			main()
 			return (1);
 		}
 		
-		NetDatas.n_addr = compute_possible_addr(NetDatas.mask);
+		NetDatas.n_addr = compute_usable_addr(NetDatas.mask);
 		fputs(ANSI_RESET, stdout);
 		show_results(NetDatas);
 		freeArgs(argv);

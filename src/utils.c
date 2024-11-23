@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:35:12 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 12:40:24 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/23 13:24:23 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,12 @@ void		show_results(net_struct NetDatas)
 	NetDatas.net_addr[3]++;
 	NetDatas.broadcast_addr[3]--;
 	fputs("\nIP range: " ANSI_COLOR_MAGENTA, stdout);
-	print_arr(NetDatas.net_addr);
-	fputs(" --> ", stdout);
-	print_arr(NetDatas.broadcast_addr);
+	if (NetDatas.n_addr){
+		print_arr(NetDatas.net_addr);
+		fputs(" --> ", stdout);
+		print_arr(NetDatas.broadcast_addr);
+	}
+	else{ fputs(ANSI_COLOR_MAGENTA "no usable addresses", stdout); }
 	fputs(ANSI_RESET, stdout);
-	printf("\nPossible addresses : %d\n", NetDatas.n_addr);
+	printf("\nUsable addresses : %d\n", NetDatas.n_addr);
 }

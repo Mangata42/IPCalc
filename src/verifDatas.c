@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:32:05 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 12:38:56 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/23 13:20:24 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,78 @@ int		verify_mask(uint8_t *mask)
 	return (0);
 }
 
+void	freeTmpVerifArr(char **arr)
+{
+	if (arr)
+	{
+		for (int i = 0; arr[i]; i++){
+			if (arr[i])
+				free(arr[i]);
+		}
+		free(arr);
+	}
+}
+
 int		verify_args(char **argv)
 {
+	char **dotSplit;
+	
 	if (!strchr(argv[0], '.')){
-		puts(ANSI_COLOR_RED "Wrong IP format: 000.000.000.000");
+		puts(ANSI_COLOR_RED "Wrong IP format: [0-255].[0-255].[0-255].[0-255]");
 		return (1);
 	}
 
 	if (!strchr(argv[1], '.') && !strchr(argv[1], '/')){
-		puts(ANSI_COLOR_RED "Wrong mask format: /00 or 000.000.000.000");
+		puts(ANSI_COLOR_RED "Wrong mask format: /[0-31] or [0-255].[0-255].[0-255].[0-255]");
 		return (1);
 	}
 
 	for (int i = 0; argv[0][i]; i++){
 		if (!isdigit(argv[0][i]) && argv[0][i] != '.'){
-			puts(ANSI_COLOR_RED "Wrong IP format: 000.000.000.000");
+			puts(ANSI_COLOR_RED "Wrong IP format: [0-255].[0-255].[0-255].[0-255]");
 			return (1);
 		}
 	}
 	
 	for (int i = 0; argv[1][i]; i++){
 		if (!isdigit(argv[1][i]) && argv[1][i] != '/' && argv[1][i] != '.'){
-			puts(ANSI_COLOR_RED "Wrong IP format: 000.000.000.000");
+			puts(ANSI_COLOR_RED "Wrong IP format: [0-255].[0-255].[0-255].[0-255]");
+			return (1);
+		}
+	}
+
+	dotSplit = ft_split(argv[0], '.');
+	for (int i = 0, n = 0; dotSplit[i]; i++)
+	{
+		n = atoi(dotSplit[i]);
+		if (n < 0 || n > 255){
+			puts(ANSI_COLOR_RED "Wrong IP format: [0-255].[0-255].[0-255].[0-255]");
+			freeTmpVerifArr(dotSplit);
 			return (1);
 		}
 	}
 	
+	freeTmpVerifArr(dotSplit);
+	if (!strchr(argv[1], '/')){
+		dotSplit = ft_split(argv[1], '.');
+		for (int i = 0, n = 0; dotSplit[i]; i++)
+		{
+			n = atoi(dotSplit[i]);
+			if (n < 0 || n > 255){
+				puts(ANSI_COLOR_RED "Wrong mask format: /[0-31] or [0-255].[0-255].[0-255].[0-255]");
+				freeTmpVerifArr(dotSplit);
+				return (1);
+			}
+		}
+		freeTmpVerifArr(dotSplit);
+	}
+	else{
+		int n = atoi(strchr(argv[1], '/') + 1);
+		if (n < 0 || n > 31){
+			puts(ANSI_COLOR_RED "Wrong mask format: /[0-31] or [0-255].[0-255].[0-255].[0-255]");
+			return (1);
+		}
+	}
+		
 	return (0);
 }
