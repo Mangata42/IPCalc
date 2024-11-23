@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:35:12 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 14:50:42 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:28:37 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ void		show_results(net_struct NetDatas)
 	puts("\n");
 	fputs(ANSI_COLOR_GREEN "IP: ", stdout);
 	print_arr(NetDatas.ip);
-	fputs("\t\t\tMASK: ", stdout);
+	fputs("\t\tMASK: ", stdout);
 	print_arr(NetDatas.mask);
-	fputs("\n===============", stdout);
-	puts("\t\t\t===================");
+	fputs("\t\tMASK (CIDR): /", stdout);
+	ft_putnbr(NetDatas.mask_cidr);
+	puts("\n - ");
 	fputs(ANSI_RESET, stdout);
 	fputs("Network address: ", stdout);
 	print_arr(NetDatas.net_addr);

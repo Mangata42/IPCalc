@@ -31,32 +31,33 @@
 
 typedef struct 
 {
-	uint8_t		*ip;
-	uint8_t		*mask;
-	uint8_t		*net_addr;			//network address
-	uint8_t		*broadcast_addr;
-	int			n_addr; 			//possible addresses
-} 				net_struct;
+	uint8_t			*ip;
+	uint8_t			*mask;
+	unsigned int	mask_cidr;
+	uint8_t			*net_addr;			//network address
+	uint8_t			*broadcast_addr;
+	int				n_addr; 			//possible addresses
+} 						net_struct;
 
 // verifDatas.c
-int				verify_ip(uint8_t *ip);
-int				verify_mask(uint8_t *mask);
-int				verify_args(char **argv);
+int					verify_ip(uint8_t *ip);
+int					verify_mask(uint8_t *mask);
+int					verify_args(char **argv);
 //
 
 // utils.c
-void			print_arr(uint8_t *arr);
-uint8_t			*char_arr_to_int_arr(char **ipC);
-void			show_results(net_struct NetDatas);
+void				print_arr(uint8_t *arr);
+uint8_t				*char_arr_to_int_arr(char **ipC);
+void				show_results(net_struct NetDatas);
 
 // freeMem.c
-void			freeArgs(char **argv);
-void			freeStruct(net_struct *NetDatas);
+void				freeArgs(char **argv);
+void				freeStruct(net_struct *NetDatas);
 //
 
 // libftFn.c
-void			ft_putnbr(int n);
-char			**ft_split(const char *str, char c);
-char			*ft_itoa(int n);
+void				ft_putnbr(int n);
+char				**ft_split(const char *str, char c);
+char				*ft_itoa(int n);
 
 #endif

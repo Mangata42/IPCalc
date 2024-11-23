@@ -6,13 +6,13 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:39:48 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 15:12:59 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:24:19 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../IPCalc.h"
 
-uint8_t		*get_mask(char *mask_arg)
+uint8_t			*get_mask(char *mask_arg)
 {
 	uint8_t		*mask_arr;
 	int			maskN_bits;
@@ -38,8 +38,24 @@ uint8_t		*get_mask(char *mask_arg)
 	return (mask_arr);
 }
 
+unsigned int	get_mask_cidr(uint8_t *mask)
+{
+	unsigned int nbits = 0; // null-bits count
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (mask[i] != 0xFF){
+			for (int y = 7; y >= 0; y--){
+				if (!(mask[i] & 1 << y))
+					nbits++;
+			}
+		}
+	}
+	return (32 - nbits);
+}
+
 // IP & MASK
-int			compute_network_addr(net_struct *NetDatas)
+int				compute_network_addr(net_struct *NetDatas)
 {
 	if (!(NetDatas->net_addr = calloc(4, sizeof(uint8_t))))
 		return (1);
@@ -50,7 +66,7 @@ int			compute_network_addr(net_struct *NetDatas)
 }
 
 // IP | (bits not set in MASK)
-int			compute_broadcast_addr(net_struct *NetDatas)
+int				compute_broadcast_addr(net_struct *NetDatas)
 {
 	if (!(NetDatas->broadcast_addr = calloc(4, sizeof(uint8_t))))
 		return(1);
@@ -61,7 +77,7 @@ int			compute_broadcast_addr(net_struct *NetDatas)
 }
 
 // 2^null_bits - 2 (network and broadcast) or 2^(32 - bits) - 2
-int			compute_usable_addr(uint8_t *mask)
+int				compute_usable_addr(uint8_t *mask)
 {
 	int 	null_bits = 0;
 	int		usable_addr = 1;
@@ -82,16 +98,17 @@ int			compute_usable_addr(uint8_t *mask)
 	return (usable_addr - 2); 
 }
 
-void		initDataStruct(net_struct *NetDatas)
+void			initDataStruct(net_struct *NetDatas)
 {
 	NetDatas->ip = 0;
 	NetDatas->mask = 0;
+	NetDatas->mask_cidr = 0;
 	NetDatas->net_addr = 0;
 	NetDatas->broadcast_addr = 0;
 	NetDatas->n_addr = 0;
 }
 
-void		askContinue(char *keepOn)
+void			askContinue(char *keepOn)
 {
 	int c;
 
@@ -103,7 +120,7 @@ void		askContinue(char *keepOn)
 	fputs(ANSI_RESET, stdout);
 }
 
-int			main()
+int				main()
 {
 	char		**argv;
 	net_struct	NetDatas;
@@ -150,6 +167,7 @@ int			main()
 			return (1);
 		}
 		
+		NetDatas.mask_cidr = get_mask_cidr(NetDatas.mask);
 		NetDatas.n_addr = compute_usable_addr(NetDatas.mask);
 		fputs(ANSI_RESET, stdout);
 		show_results(NetDatas);
