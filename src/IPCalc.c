@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:39:48 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 12:55:08 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/23 15:12:59 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			compute_network_addr(net_struct *NetDatas)
 	if (!(NetDatas->net_addr = calloc(4, sizeof(uint8_t))))
 		return (1);
 	for (int i = 0; i < 4; i++)
-		NetDatas->net_addr[i] = NetDatas->ip[i] & NetDatas->ip[i];
+		NetDatas->net_addr[i] = NetDatas->ip[i] & NetDatas->mask[i];
 		
 	return (0);
 }
