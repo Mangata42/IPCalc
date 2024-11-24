@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:39:48 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 16:24:19 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/24 13:17:47 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ int				main()
 	net_struct	NetDatas;
 	char		keepOn = 1;
 
+		
+	printf(ANSI_TERM_CLEAR);
 	while (keepOn)
 	{
 		if (!(argv = malloc(sizeof(char *) * 3)))
@@ -135,8 +137,6 @@ int				main()
 		argv[2] = NULL;
 
 		initDataStruct(&NetDatas);
-		
-		printf(ANSI_TERM_CLEAR);
 		fputs("IP: ", stdout);
 		scanf("%s", argv[0]);
 		fputs("MASK: ", stdout);
