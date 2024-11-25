@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:12:18 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 12:18:58 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:55:40 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	freeStruct(net_struct *NetDatas)
 			free(NetDatas->ip);
 		if (NetDatas->mask)
 			free(NetDatas->mask);
+		if (NetDatas->mask_bin)
+			free(NetDatas->mask_bin);
 		if (NetDatas->net_addr)
 			free(NetDatas->net_addr);
 		if (NetDatas->broadcast_addr)

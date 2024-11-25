@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:39:48 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/24 13:17:47 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:34:50 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 uint8_t			*get_mask(char *mask_arg)
 {
-	uint8_t		*mask_arr;
-	int			maskN_bits;
+	uint8_t					*mask_arr;
+	int						maskN_bits;
 	int			div, rem;
 	
 	if (strchr(mask_arg, '.')){
@@ -53,6 +53,30 @@ unsigned int	get_mask_cidr(uint8_t *mask)
 	}
 	return (32 - nbits);
 }
+
+char			*get_mask_binary(uint8_t *mask)
+{
+	char 			*mask_bin;
+	unsigned int	i = 0, y = 0;
+
+	if (!(mask_bin = malloc(33)))
+		return (NULL);
+	
+	while (i < 4)
+	{
+		for (int z = 7; z >= 0; z--)
+		{
+			if (mask[i] & 1 << z)
+				mask_bin[y] = '1';
+			else
+				mask_bin[y] = '0';
+			y++;
+		}
+		i++;
+	}
+	
+	return (mask_bin);
+}			
 
 // IP & MASK
 int				compute_network_addr(net_struct *NetDatas)
@@ -103,6 +127,7 @@ void			initDataStruct(net_struct *NetDatas)
 	NetDatas->ip = 0;
 	NetDatas->mask = 0;
 	NetDatas->mask_cidr = 0;
+	NetDatas->mask_bin = NULL;
 	NetDatas->net_addr = 0;
 	NetDatas->broadcast_addr = 0;
 	NetDatas->n_addr = 0;
@@ -168,6 +193,7 @@ int				main()
 		}
 		
 		NetDatas.mask_cidr = get_mask_cidr(NetDatas.mask);
+		NetDatas.mask_bin = get_mask_binary(NetDatas.mask);
 		NetDatas.n_addr = compute_usable_addr(NetDatas.mask);
 		fputs(ANSI_RESET, stdout);
 		show_results(NetDatas);

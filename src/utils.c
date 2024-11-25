@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:35:12 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 16:28:37 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:52:56 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,27 @@ void		show_results(net_struct NetDatas)
 	NetDatas.net_addr[3]++;
 	NetDatas.broadcast_addr[3]--;
 	fputs("\nIP range: " ANSI_COLOR_MAGENTA, stdout);
+	
 	if (NetDatas.n_addr){
 		print_arr(NetDatas.net_addr);
 		fputs(" --> ", stdout);
 		print_arr(NetDatas.broadcast_addr);
 	}
 	else{ fputs(ANSI_COLOR_MAGENTA "no usable addresses", stdout); }
+
+	fputs(ANSI_RESET, stdout);
+	fputs("\nMask binary: ", stdout);
+	fflush(stdout);
+	for (int i = 0; i < 32; i++)
+	{
+		if (i % 8 == 0)
+			write(1, (void *)" ", 1);
+		if (NetDatas.mask_bin[i] == '0'){
+			fputs(ANSI_COLOR_YELLOW, stdout);
+			fflush(stdout);
+		}
+		write(1, &NetDatas.mask_bin[i], 1);
+	}
 	fputs(ANSI_RESET, stdout);
 	printf("\nUsable addresses : %d\n", NetDatas.n_addr);
 }

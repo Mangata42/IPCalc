@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <ctype.h>
 
 # define ANSI_COLOR_RED     "\x1b[31m"
@@ -34,6 +35,7 @@ typedef struct
 	uint8_t			*ip;
 	uint8_t			*mask;
 	unsigned int	mask_cidr;
+	char			*mask_bin;
 	uint8_t			*net_addr;			//network address
 	uint8_t			*broadcast_addr;
 	int				n_addr; 			//possible addresses

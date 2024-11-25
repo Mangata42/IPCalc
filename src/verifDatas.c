@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:32:05 by nghaddar          #+#    #+#             */
-/*   Updated: 2024/11/23 13:20:24 by nghaddar         ###   ########.fr       */
+/*   Updated: 2024/11/25 10:34:34 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		verify_ip(uint8_t *ip)
 {
 	for (int i = 0; i < 4; i++){
-		if (ip[i] < 0 || ip[i] > 255){
+		if (ip[i] > 255){
 			puts(ANSI_COLOR_RED "Wrong IP value.\n");
 			return (1);
 		}
