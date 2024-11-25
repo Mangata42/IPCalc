@@ -1,5 +1,6 @@
 # IPCalc
 Simple IP subnet calculator
+Don't forget to git pull regulary.
 
 ![ScreenRecording2024-11-24at18 53 54-ezgif com-speed](https://github.com/user-attachments/assets/ce582a1a-57e8-4074-9a72-af1d9c7f8ac4)
 
